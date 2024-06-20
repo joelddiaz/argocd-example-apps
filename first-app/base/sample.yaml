@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: first-app
+  namespace: guestbook
+data:
+ example: yes

@@ -1,6 +1,21 @@
+envName: first-env
 spec:
   destination:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/argoproj/argocd-example-apps
     targetRevision: HEAD
+default:
+  app:
+    destination:
+      server: https://kubernetes.default.svc
+    project: infra
+    source:
+      targetRevision: HEAD
+applications:
+  first-app:
+    enabled: true
+    destination:
+      server: https://kubernetes.default.svc
+    source:
+      path: first-app/base

@@ -1,0 +1,23 @@
+{{- range $key,$val := .Values.applications}}
+{{- if $val.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ required "A valid envName is required" $.Values.envName }}-{{ $key }}
+spec:
+  destination:
+    namespace: somethingHere
+    server: {{ $val.destination.server | default $.Values.default.app.destination.server | required (printf "No destination.server specified for %s" $key ) }}
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace={{ $val.createNamespace | default false }}
+  source:
+    path: {{ tpl $val.source.path $ }}
+    repoURL: https://github.com/joelddiaz/argocd-example-apps
+    targetRevision: HEAD
+{{- end }}
+{{- end }}
